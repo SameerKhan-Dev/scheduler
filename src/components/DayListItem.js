@@ -32,6 +32,23 @@ export default function DayListItem(props) {
 export default function DayListItem(props) {
 
   //let componentClass = classNames('day-list__item', {'day-list__item--full': props.spots === 0}, {'day-list__item--selected': props.setDay});
+  const spotsString = "";
+  const formatSpots = function (spotsString) {
+    if (props.spots === 0) {
+      spotsString = `no spots remaining`;
+
+    } else if (props.spots === 1) {
+
+      spotsString = `1 spot remaining`;
+    } else {
+
+      spotsString = `${props.spots} spots remaining`;
+    }
+    
+    return spotsString;
+  }
+
+  let formattedSpotsString = formatSpots(spotsString);
 
   let dayClass = {
     'day-list__item': true,
@@ -44,7 +61,7 @@ export default function DayListItem(props) {
   return (
     <li className = {componentClass} onClick={() => props.setDay(props.name)}>
       <h2 className="text--regular">{props.name}</h2>
-      <h3 className="text--light">{props.spots}</h3>
+      <h3 className="text--light">{formattedSpotsString}</h3>
     </li>
   );
 }
