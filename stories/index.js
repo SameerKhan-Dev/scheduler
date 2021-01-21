@@ -10,6 +10,10 @@ import DayListItem from "components/DayListItem";
 
 import DayList from "components/DayList"; 
 
+import Application from "components/Application";
+
+
+
 // Mock data
 const days = [
   {
@@ -79,4 +83,18 @@ storiesOf("DayList", module)
       return(
       <DayList days={days} day={"Wednesday"} setDay={action("setDay")} />);
     });
+
+storiesOf("Application", module)
     
+    .addParameters({
+      backgrounds: [{ name: "dark", value: "#222f3e", default: true}]
+    })
+    .add("Application", () => {
+
+      return(
+
+        <Application />
+      )
+
+    
+    });
