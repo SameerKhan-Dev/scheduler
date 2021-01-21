@@ -12,9 +12,10 @@ import DayList from "components/DayList";
 
 import Application from "components/Application";
 
-
-
-// Mock data
+import InterviewerListItem from "components/InterviewerListItem";
+import InterviewerList from "components/InterviewerList";
+ 
+// Mock data for days
 const days = [
   {
     id: 1,
@@ -32,6 +33,23 @@ const days = [
     spots: 0,
   },
 ];
+
+// Mock data for the interviewer
+const interviewer = {
+  id: 1,
+  name: "Sylvia Palmer",
+  avatar: "https://i.imgur.com/LpaY82x.png"
+};
+
+// Mock data for all available interviewers
+const interviewers = [
+  { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
+  { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
+  { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
+  { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
+  { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
+];
+
 
 storiesOf("Button", module)
   .addParameters({
@@ -96,5 +114,75 @@ storiesOf("Application", module)
         <Application />
       )
 
-    
     });
+
+
+
+storiesOf("InterviewerListItem", module)
+
+    .addParameters ({
+
+      backgrounds: [{ name: "dark", value: "#222f3e", default: true}]
+    })
+    .add ("Not Selected", () => {
+
+      return (
+        <InterviewerListItem
+          id = {interviewer.id} 
+          name = {interviewer.name}
+          avatar = {interviewer.avatar}
+          selected = {false}
+          //setInterviewer={action("setInterviewer")}
+        />
+
+      );
+
+    })
+    .add ("Selected", () => {
+
+        return (
+          
+          <InterviewerListItem
+            id = {interviewer.id} 
+            name = {interviewer.name}
+            avatar = {interviewer.avatar}
+            selected = {true}
+            //setInterviewer={action("setInterviewer")}
+          />
+        );
+    })
+    .add ("Clickable", () => {
+      return (
+        <InterviewerListItem
+          id = {interviewer.id} 
+          name = {interviewer.name}
+          avatar = {interviewer.avatar}
+          selected = {false}
+          setInterviewer={action("setInterviewer")}
+        />
+      );
+    });
+
+
+storiesOf("InterviewerList", module)
+    .addParameters({
+
+      backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+
+    })
+    .add("Initial", () => ( //no interviewer selected.
+     
+          <InterviewerList
+            interviewers= {interviewers}
+            setInterviewer= {action("setInterviewer")}
+          />
+      
+    ))
+    .add("Preselected", () => ( // one of the interviewer is selected (interviewer 3 (i.e with id 3)).
+
+      <InterviewerList
+        interviewers= {interviewers}
+        interviewer= {3}
+        setInterviewer= {action("setInterviewer")}
+     />
+    ));
