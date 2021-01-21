@@ -6,6 +6,28 @@ import { action } from "@storybook/addon-actions";
 import "index.scss";
 
 import Button from "components/Button";
+import DayListItem from "components/DayListItem";
+
+import DayList from "components/DayList"; 
+
+// Mock data
+const days = [
+  {
+    id: 1,
+    name: "Monday",
+    spots: 2,
+  },
+  {
+    id: 2,
+    name: "Tuesday",
+    spots: 5,
+  },
+  {
+    id: 3,
+    name: "Wednesday",
+    spots: 0,
+  },
+];
 
 storiesOf("Button", module)
   .addParameters({
@@ -23,7 +45,6 @@ storiesOf("Button", module)
     </Button>
   ));
 
-import DayListItem from "components/DayListItem";
 
 
 storiesOf("DayListItem", module) // Initiates StoryBook and registers our DayListItem component
@@ -38,4 +59,24 @@ storiesOf("DayListItem", module) // Initiates StoryBook and registers our DayLis
     <DayListItem name = "Tuesday" setDay={action("setDay")} spots = {5} />)
 
 );
+    
+storiesOf("DayList", module)
+      
+    .addParameters({
+
+      backgrounds: [{ name: "dark", value: "#222f3e", default: true}]
+
+    })
+    .add("Monday", () =>{
+      return(
+      <DayList days={days} day={"Monday"} setDay={action("setDay")} />);
+    })
+    .add("Tuesday", () => {
+      return(
+      <DayList days={days} day={"Tuesday"} setDay={action("setDay")} />);
+    })
+    .add("Wednesday", ()=> {
+      return(
+      <DayList days={days} day={"Wednesday"} setDay={action("setDay")} />);
+    });
     
