@@ -5,7 +5,7 @@ import './InterviewerList.scss'
 
 const InterviewerList = function (props) {
 
-    const {interviewers, interviewer, setInterviewer} = props;
+    const {interviewers, value , onChange} = props;
     // we want to return an array components (i.e array of InterviewerListItem components)
     // use map to create that array.
     
@@ -17,8 +17,8 @@ const InterviewerList = function (props) {
             key= {eachInterviewer.id}
             name= {eachInterviewer.name} 
             avatar= {eachInterviewer.avatar}
-            selected= {interviewer === eachInterviewer.id}
-            setInterviewer= {event => (setInterviewer(eachInterviewer.id))}
+            selected= {value === eachInterviewer.id}
+            setInterviewer= {event => (onChange(eachInterviewer.id))}
           />
         );
     });

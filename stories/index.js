@@ -23,6 +23,8 @@ import Show from "components/Appointment/Show";
 import Confirm from "components/Appointment/Confirm";
 import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
+import Form from "components/Appointment/Form";
+
 
 // Mock data for days
 const days = [
@@ -183,7 +185,7 @@ storiesOf("InterviewerList", module)
      
           <InterviewerList
             interviewers= {interviewers}
-            setInterviewer= {action("setInterviewer")}
+            onChange= {action("setInterviewer")}
           />
       
     ))
@@ -191,8 +193,8 @@ storiesOf("InterviewerList", module)
 
       <InterviewerList
         interviewers= {interviewers}
-        interviewer= {3}
-        setInterviewer= {action("setInterviewer")}
+        value= {3}
+        onChange= {action("setInterviewer")}
      />
     ));
 
@@ -254,5 +256,28 @@ storiesOf("Appointment", module)
           message="Could not delete appointment"
           onClose={action("onClose")}
         /> 
-      ));
+      ))
+      .add("Form-Edit", () => (
+
+          <Form
+            name="John Hello"
+            interviewers={interviewers}
+            interviewer={interviewer.id}
+            onSave={action("onSave")}
+            onCancel={action("onCancel")}
+            setInterviewer={action("setInterviewer")}
+          />
+      ))
+      .add("From-Create", () => (
+        
+        <Form
+          //name="John Hello"
+          //interviewer={interviewer.id}
+          interviewers={interviewers}
+          onSave={action("onSave")}
+          onCancel={action("onCancel")}
+          setInterviewer={action("setInterviewer")}
+        />
       
+      ));
+     
