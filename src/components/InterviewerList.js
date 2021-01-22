@@ -14,11 +14,11 @@ const InterviewerList = function (props) {
 
         return (
           <InterviewerListItem
-            id= {eachInterviewer.id}
+            key= {eachInterviewer.id}
             name= {eachInterviewer.name} 
             avatar= {eachInterviewer.avatar}
             selected= {interviewer === eachInterviewer.id}
-            setInterviewer= {setInterviewer}
+            setInterviewer= {event => (setInterviewer(eachInterviewer.id))}
           />
         );
     });

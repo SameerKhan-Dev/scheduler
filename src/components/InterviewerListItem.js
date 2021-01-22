@@ -6,10 +6,7 @@ var classNames = require('classnames');
 
 const InterviewerListItem = function (props) {
 
-  const {id , name, avatar, selected, setInterviewer} = props;
-  
-  
-
+  const {key, name, avatar, selected, setInterviewer} = props;
 
   const classesForLi = classNames(
 
@@ -37,7 +34,9 @@ const InterviewerListItem = function (props) {
         selected = {selected}
         onClick = {setInterviewer}
       />
-      {selected ? name : ""}
+        {//selected ? name : ""
+          props.selected && props.name }
+        
     </li>
   );
 }

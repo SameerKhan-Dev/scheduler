@@ -132,7 +132,7 @@ storiesOf("InterviewerListItem", module)
           name = {interviewer.name}
           avatar = {interviewer.avatar}
           selected = {false}
-          //setInterviewer={action("setInterviewer")}
+      
         />
 
       );
@@ -147,18 +147,18 @@ storiesOf("InterviewerListItem", module)
             name = {interviewer.name}
             avatar = {interviewer.avatar}
             selected = {true}
-            //setInterviewer={action("setInterviewer")}
+         
           />
         );
     })
     .add ("Clickable", () => {
       return (
         <InterviewerListItem
-          id = {interviewer.id} 
+          //id = {interviewer.id} 
           name = {interviewer.name}
           avatar = {interviewer.avatar}
           selected = {false}
-          setInterviewer={action("setInterviewer")}
+          setInterviewer={event => action("setInterviewer")(interviewer.id)}
         />
       );
     });
