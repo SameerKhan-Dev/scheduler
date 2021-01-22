@@ -14,7 +14,6 @@ $appointment-height: 11rem;
 
     &-button {
       @include button-inactive--opacity;
-
       &:hover {
         @include button-active--opacity;
       }
