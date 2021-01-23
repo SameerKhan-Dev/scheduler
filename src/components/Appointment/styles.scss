@@ -9,11 +9,13 @@ $appointment-height: 11rem;
     min-height: $appointment-height;
     padding: 2rem 0;
     display: flex;
+    text-align:center;
     justify-content: center;
     align-items: center;
 
     &-button {
       @include button-inactive--opacity;
+      
       &:hover {
         @include button-active--opacity;
       }
@@ -30,7 +32,7 @@ $appointment-height: 11rem;
   &__separator {
     border: 0;
     border-bottom: 1px solid darken($white, 5%);
-    width: 80%;
+    width: 100%;
     margin-left: 1rem;
     align-self: flex-end;
     display:inline-block;
@@ -106,6 +108,7 @@ $appointment-height: 11rem;
     }
   }
 
+ 
   &:last-of-type &__add,
   &:last-of-type &__card {
     display: none;
