@@ -265,7 +265,7 @@ storiesOf("Appointment", module)
             interviewer={interviewer.id}
             onSave={action("onSave")}
             onCancel={action("onCancel")}
-            setInterviewer={action("setInterviewer")}
+            //setInterviewer={action("setInterviewer")}
           />
       ))
       .add("From-Create", () => (
@@ -276,7 +276,7 @@ storiesOf("Appointment", module)
           interviewers={interviewers}
           onSave={action("onSave")}
           onCancel={action("onCancel")}
-          setInterviewer={action("setInterviewer")}
+          //setInterviewer={action("setInterviewer")}
         />
       
       ));

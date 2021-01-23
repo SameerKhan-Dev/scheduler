@@ -1,41 +1,63 @@
-import React from 'react';
+import React, {useState} from 'react';
 import InterviewerList from 'components/InterviewerList';
 import Button from 'components/Button';
 
 
 function Form(props) {
-  
-  const {name, interviewers, interviewer, onSave, onCancel, setInterviewer} = props;
+
+  const [name, setName] = useState(props.name || "");
+  const [interviewer, setInterviewer] = useState(props.interviewer || null);
+
+
+  const {interviewers, onSave, onCancel} = props;
   //const placeholderValue = (props.name ? props.name : "Enter Student Name");
-  if (props.name === null){
+  /*if (props.name === null){
     name = "";
   }
+  */
+  /*
   if (props.interviewer === null) {
-
     interviewer = null;
   }
+  */
+ // reset function to clear the values in the form, i.e resets to a brand new form
+  const reset = function () {
+    // set the name value to empty ""
+    setName("");
+    // set the interviewer to null
+    setInterviewer(null);
+  }
+
+  const cancel = function () {
+    // call the onCancel function, i.e when a user cancels operation to edit or create.
+    onCancel(); // props.onCancel();
+    // reset the values
+    reset();
+  }
+
 
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
-        <form autoComplete="off">
+        <form onSubmit={event => event.preventDefault()} autoComplete="off">
           <input
             className="appointment__create-input text--semi-bold"
             name="name"
             type="text"
             placeholder= "Enter Student Name"
-            //value = {name}
+            value = {name}
             /*
               This must be a controlled component
             */
+            onChange={event => setName(event.target.value)}
           />
         </form>
         <InterviewerList interviewers={interviewers} value={interviewer} onChange={setInterviewer} />
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button onClick={onCancel} danger>Cancel</Button>
-          <Button onClick={onSave} confirm>Save</Button>
+          <Button onClick={cancel} danger>Cancel</Button>
+          <Button onClick={event=> onSave(name)} confirm>Save</Button>
         </section>
       </section>
   </main>
