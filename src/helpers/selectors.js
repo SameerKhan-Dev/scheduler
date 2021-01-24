@@ -1,5 +1,41 @@
 
-export default function getAppointmentsForDay(state, day) {
+function getInterview(state, interview) {
+  // check if interview is booked or not, i.e has a valid non-null value or not 
+  if (interview === null) {
+    return null;
+  }
+  
+  // lets build the two key-value pairs
+
+    // first lets get the student name from the interview
+   
+    let result = {};
+    result.student = interview.student;
+    
+    // get the interviewer_id
+    let interviewer_id = interview.interviewer;
+   //console.log("interviewer_id is:", interviewer_id);
+
+    // get the interviewer information from the state.interviewers, for interviewer with matching id: interviewer_id;
+    
+    // get an array of all interviewers keys / ids
+    /*
+    let interviewers_keys = Object.keys(state.interviewers);
+    console.log("interviewers_keys is: ", interviewers_keys);
+    */
+    let interviewerObject = state.interviewers[interviewer_id];
+
+    result.interviewer = {
+      id: interviewer_id,
+      name: interviewerObject.name,
+      avatar: interviewerObject.avatar
+    }
+    
+   //console.log("result is : ", result);
+   return result;
+}
+
+function getAppointmentsForDay(state, day) {
 
   //... returns an array of appointments for that day
   
@@ -43,8 +79,17 @@ export default function getAppointmentsForDay(state, day) {
   // corner cases, if days is empty, then return empty array,
   // or if day is not found return an empty array.
 }
+const helpers = {
+  getInterview,
+  getAppointmentsForDay
+}
+
+export default helpers;
+//export {getInterview, getAppointmentsForDay};
 
 /*
+
+
 const state = {
   days: [
     {
@@ -72,8 +117,76 @@ const state = {
       time: "4pm",
       interview: { student: "Chad Takahashi", interviewer: 2 }
     }
+  },
+  interviewers: {
+    "1": {  
+      "id": 1,
+      "name": "Sylvia Palmer",
+      "avatar": "https://i.imgur.com/LpaY82x.png"
+    },
+    "2": {
+      id: 2,
+      name: "Tori Malcolm",
+      avatar: "https://i.imgur.com/Nmx0Qxo.png"
+    }
   }
 };
 
-getAppointmentsForDay(state, "Tuesday");
+getInterview(state, state.appointments["3"].interview);
+
+
+// This function will return an object that contains the interview data if it is passed an object that contains an interviewer.
+/*
+  Expected Output:
+{   
+  "student": "Lydia Miller-Jones",
+  "interviewer": {  
+    "id": 1,
+    "name": "Sylvia Palmer",
+    "avatar": "https://i.imgur.com/LpaY82x.png"
+  }
+}
+
 */
+
+// function getInterview(state, interview) { /////////////////////////////////
+
+    // state object contains three key-value pairs : 
+    // 1) the days array with day objects 2) appointments object containing objects 3) interviewers object containing objects. 
+    // the state.interviewers is in format:
+    /*
+    {
+     "1": {
+          "id": 1,
+          "name": "Sylvia Palmer",
+          "avatar": "https://i.imgur.com/LpaY82x.png"
+      },
+     "2": {
+          "id": 2,
+          "name": "Tori Malcolm",
+          "avatar": "https://i.imgur.com/Nmx0Qxo.png"
+      }   
+    }
+    
+    Now the * interview * parameter is an object containing interview details from the appointment object. 
+
+    the interview is in format:
+    
+       {
+         "student": "Lydia Miller-Jones",
+        "interviewer": 1
+       }
+
+      "interviewer is the interviewer id that we have to match.
+  
+      Expected Output:
+{   
+  "student": "Lydia Miller-Jones",
+  "interviewer": {  
+    "id": 1,
+    "name": "Sylvia Palmer",
+    "avatar": "https://i.imgur.com/LpaY82x.png"
+  }
+}
+    */ 
+
