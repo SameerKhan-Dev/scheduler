@@ -11,8 +11,8 @@ function Empty(props) {
           className="appointment__add-button"
           src="images/add.png"
           alt="Add"
-          //onClick={event => onAdd("clicked!")}
-          onClick={onAdd}
+          onClick={event => onAdd()}
+          //onClick={onAdd("CREATE")}
         />
       </main>
     );
