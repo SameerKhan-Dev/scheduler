@@ -22,7 +22,6 @@ function Appointment(props) {
   );
   */
   return (
-
     <article className="appointment">
       <Header
         time={props.time}
@@ -55,8 +54,4 @@ export default Appointment;
         time={props.time}
       />
     </article>
-
-
-
-
 */

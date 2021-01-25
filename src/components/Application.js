@@ -4,8 +4,10 @@ import "components/Application.scss";
 
 import DayList from "./DayList";
 import Appointment from "./Appointment";
-import getAppointmentsForDay from "../helpers/selectors";
+//import {getInterview, getAppointmentsForDay} from "../helpers/selectors";
+//import getAppointmentsForDay from "../helpers/selectors";
 
+import helpers from "../helpers/selectors";
 
 const axios = require('axios');
 // Mock data (eventually we will get this data from an API).
@@ -92,6 +94,7 @@ export default function Application(props) {
 
     day: "Monday",
     days: [],
+    interviewers: [],
     appointments: [
       {
         id: 1,
@@ -151,9 +154,7 @@ export default function Application(props) {
   //const setDays = (days) => setState(prev => ({ ...prev, days}));
 
   
-
-
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  
   // const dailyAppointments = appointments;
 
   useEffect(() => {
@@ -161,7 +162,7 @@ export default function Application(props) {
     Promise.all([
       axios.get("http://localhost:8001/api/days"),
       axios.get("http://localhost:8001/api/appointments"),
-      //Promise.resolve(axios.get("http://localhost:8001/api/interviewers"))
+      axios.get("http://localhost:8001/api/interviewers")
   
     ])
     .then ((allValues) => {
@@ -172,13 +173,14 @@ export default function Application(props) {
   
       let daysData = allValues[0].data;
       let appointmentsData = allValues[1].data;
-      //let interviewersData = allValues[2];
-  
+      let interviewersData = allValues[2];
+      console.log("interviewersData is : ", interviewersData);
       //const [first, second, third] = all;
       console.log("ALL VALUES IS: ", allValues);
-      setState(prev => ({...prev, days: daysData, appointments: appointmentsData}));
+      setState(prev => ({...prev, days: daysData, appointments: appointmentsData, interviewers: interviewersData}));
+      console.log("state.interviewers is : ", state.interviewers);
     });
-  
+    //console.log("state.interviewers is : ", state.interviewers);
     /*
     axios.get("http://localhost:8001/api/days")
       .then(response => {
@@ -189,14 +191,17 @@ export default function Application(props) {
     */
   },[]);
 
-
+  const dailyAppointments = helpers.getAppointmentsForDay(state, state.day);
   
   const appointmentsList = dailyAppointments.map((eachAppointment) => {
-
+    //const interview = helpers.getInterview(state, eachAppointment.interview)
     return (
       <Appointment
          key= {eachAppointment.id}
-        {...eachAppointment}
+         id={eachAppointment.id}
+         time={eachAppointment.time}
+         //{...eachAppointment}
+         interview={eachAppointment.interview}
       />
     );
   });
