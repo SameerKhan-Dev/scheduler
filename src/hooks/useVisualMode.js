@@ -16,10 +16,16 @@ export default function useVisualMode (initialMode) {
     });
   }
   */
-  function transition (newMode) {
+  function transition (newMode, replace = false) {
     
-    setHistory([...history, newMode]);
-    setMode(newMode);
+    if(replace === true) {
+      // i.e dont store the mode into history.
+      setMode(newMode);
+
+    } else {
+      setHistory([...history, newMode]);
+      setMode(newMode);
+    }
     //console.log("History is: ", history);
   }
 
@@ -43,7 +49,7 @@ export default function useVisualMode (initialMode) {
     */
     //setHistory(history.slice(0, history.length-1));
   }
-  console.log("History is: ", history);
+ // console.log("History is: ", history);
   return ({
     mode: mode,
     transition: transition,
