@@ -8,6 +8,7 @@ import Appointment from "./Appointment";
 //import getAppointmentsForDay from "../helpers/selectors";
 
 import helpers from "../helpers/selectors";
+const {getInterview, getAppointmentsForDay, getInterviewersForDay} = helpers;
 
 const axios = require('axios');
 // Mock data (eventually we will get this data from an API).
@@ -173,7 +174,7 @@ export default function Application(props) {
   
       let daysData = allValues[0].data;
       let appointmentsData = allValues[1].data;
-      let interviewersData = allValues[2];
+      let interviewersData = allValues[2].data;
       console.log("interviewersData is : ", interviewersData);
       //const [first, second, third] = all;
       console.log("ALL VALUES IS: ", allValues);
@@ -191,8 +192,11 @@ export default function Application(props) {
     */
   },[]);
 
+  console.log("state.days is: ", state.days);
   const dailyAppointments = helpers.getAppointmentsForDay(state, state.day);
-  
+  const interviewers = getInterviewersForDay(state, state.day);
+  console.log("interviewers is :", interviewers);
+
   const appointmentsList = dailyAppointments.map((eachAppointment) => {
     //const interview = helpers.getInterview(state, eachAppointment.interview)
     return (
@@ -201,6 +205,7 @@ export default function Application(props) {
          id={eachAppointment.id}
          time={eachAppointment.time}
          //{...eachAppointment}
+         interviewers={interviewers}
          interview={eachAppointment.interview}
       />
     );

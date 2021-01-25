@@ -55,7 +55,7 @@ function getAppointmentsForDay(state, day) {
         // search for that appointment inside the appointments list
         // of objects and add it to the results array
         let appointment_ids = dayArray[0].appointments;
-        console.log("appointment_ids is: ", appointment_ids);
+        //console.log("appointment_ids is: ", appointment_ids);
         if (appointment_ids.length > 0) {
           
           for (const key in state.appointments) {
@@ -79,12 +79,80 @@ function getAppointmentsForDay(state, day) {
   // corner cases, if days is empty, then return empty array,
   // or if day is not found return an empty array.
 }
-const helpers = {
-  getInterview,
-  getAppointmentsForDay
+
+// function returns all available interviewers for given day.
+
+function getInterviewersForDay(state, day) {
+
+  //... returns an array of appointments for that day
+  
+  // store all appointment ids, where day-name is Monday
+  // get all the appointment objects matching id and add to array,
+  // return that array as the answer
+  let result = [];
+    // check if days is not empty
+    if(state.days.length !== 0) {
+      // check if day is found inside the days array of object
+      let dayArray = state.days.filter(eachDay => {
+        return (eachDay.name === day);    
+      });
+      // check if day was found
+      if (dayArray.length > 0) {
+        //extract the interviewers_ids for that day
+        // search for that appointment inside the appointments list
+        // of objects and add it to the results array
+        let interviewers_ids = dayArray[0].interviewers;
+        console.log("interviewers_ids is: ", interviewers_ids);
+        if (interviewers_ids.length > 0) {
+          
+          for (const idKey in state.interviewers) {
+            //console.log("appointmentObject is: ", appointmentObject)
+            console.log("Key inside is: ", idKey);
+            if(interviewers_ids.includes(state.interviewers[idKey].id)){
+
+              result.push(state.interviewers[idKey]);
+            }
+            //allAppointments.push(appointmentObject);
+
+          }
+          
+          //console.log("result here is: ", result);
+         //console.log("allAppointments is: ", allAppointments);
+ 
+        }
+        console.log("result inside is: ", result);
+      }  
+    }  
+    console.log("Output is ,", result);
+    return result;
+  // corner cases, if days is empty, then return empty array,
+  // or if day is not found return an empty array.
 }
 
+
+
+
+const helpers = {
+  getInterview,
+  getAppointmentsForDay,
+  getInterviewersForDay
+}
+
+
+
+
+
+
 export default helpers;
+
+
+
+
+
+
+
+
+
 //export {getInterview, getAppointmentsForDay};
 
 /*
@@ -95,12 +163,14 @@ const state = {
     {
       id: 1,
       name: "Monday",
-      appointments: [1, 2, 3]
+      appointments: [1, 2, 3],
+      interviewers: [2]
     },
     {
       id: 2,
       name: "Tuesday",
-      appointments: [4, 5]
+      appointments: [4, 5],
+      interviewers: [2]
     }
   ],
   appointments: {

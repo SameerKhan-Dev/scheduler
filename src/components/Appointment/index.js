@@ -6,6 +6,8 @@ import Form from './Form';
 //import useVisualMode from '/home/sam123/lighthouse/w7/scheduler/scheduler/src/hooks/useVisualMode';
 import useVisualMode from '../hooks/useVisualMode';
 import './styles.scss';
+import helpers from "../../helpers/selectors";
+
 var classNames = require('classnames');
 /*
 function Show(props) {
@@ -49,10 +51,10 @@ function Appointment(props) {
         interviewer={props.interview.interviewer}
       />
      )}
-     
+       
      {mode === CREATE && (
         <Form 
-          interviewers= {[]}
+          interviewers= {props.interviewers}
           //onSave={transition}
           onCancel={back}
         //onEdit={transition}
