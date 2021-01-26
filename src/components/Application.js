@@ -154,8 +154,48 @@ export default function Application(props) {
   //const setDays = (days) => setState({...state, days: days });
   //const setDays = (days) => setState(prev => ({ ...prev, days}));
 
-  
-  
+  // id is the appointment_id and interview is the object with name of student, and interviewer_id.
+  function bookInterview(id, interview) {
+
+    console.log(id, interview);
+
+    // make a copy of the interview object.
+    const interviewCopy = {...interview};
+
+    // make a copy of the current appointment and modify the interview object to be the new interview object info.
+    const appointment = {
+      ...state.appointments[id],
+      interview: {...interview}
+    };
+    // make a copy of the existing appointments list and update it with the new appointment object.
+    const appointments = {
+      ...state.appointments,
+      // appointments[id] = 
+      [id]: appointment
+    };
+
+
+   return axios
+    .put(`http://localhost:8001/api/appointments/${id}`, {
+      id: id,
+      time: state.appointments[id].time,
+      interview: {
+        student: interview.student,
+        interviewer: interview.interviewer,
+      },
+    })
+    .then((response) => {
+      console.log("response is: ",response);
+       // call setState function to update local state value
+      setState({...state, appointments: appointments});
+    }).catch(err => console.log("error from put request is: ", err));
+    
+    //setState({...state, appointments: appointments});
+    // alternatively could have done:  setState({...state, appointments});
+    
+    // make Async API put request to update database.
+    
+  }
   // const dailyAppointments = appointments;
 
   useEffect(() => {
@@ -193,7 +233,9 @@ export default function Application(props) {
   },[]);
 
   console.log("state.days is: ", state.days);
+ 
   const dailyAppointments = helpers.getAppointmentsForDay(state, state.day);
+  console.log("dailyAppointments is: ", dailyAppointments);
   const interviewers = getInterviewersForDay(state, state.day);
   console.log("interviewers is :", interviewers);
 
@@ -207,16 +249,20 @@ export default function Application(props) {
          //{...eachAppointment}
          interviewers={interviewers}
          interview={eachAppointment.interview}
+         bookInterview = {bookInterview}
+         //interviewWithName = {getInterview(state, eachAppointment.interview)}
       />
     );
   });
   //
+  /// added empty appointment for bottom of list.
   /*
   appointmentsList.push(
     <Appointment
-      key={appointmentsList.length +1}
+      //key={appointmentsList.length +1}
       time="5pm"
    />
+   
   );
   */
 
@@ -233,7 +279,8 @@ export default function Application(props) {
             src="images/logo.png"
             alt="Interview Scheduler"
           />
-          <hr className="sidebar__separator sidebar--centered" />
+          <hr className="sidebar__separator sidebar--centered" />         
+        
           <nav className="sidebar__menu">'
 
               <DayList

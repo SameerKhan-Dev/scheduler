@@ -34,8 +34,16 @@ function Form(props) {
     // reset the values
     reset();
   }
-
-
+  /*
+  // name is name of student, interviewer is the interviewer id.
+  // this page re-renders everytime name is changed or interviewer is changed so,
+  // so this means that interview object is subject to change, i.e tracks/holds
+  // the most recent value of the name and interviewer states/variables.
+  let interview = {
+    name: name,
+    interviewer: interviewer 
+  }
+  */
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -57,7 +65,7 @@ function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button onClick={cancel} danger>Cancel</Button>
-          <Button onClick={event=> onSave(name)} confirm>Save</Button>
+          <Button onClick={event=> onSave(name, interviewer)} confirm>Save</Button>
         </section>
       </section>
   </main>
