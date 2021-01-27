@@ -9,7 +9,7 @@ function Form(props) {
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
 
-  const {interviewers, onSave, onCancel} = props;
+  const {interviewers, onSave, onCancel, onInvalidInput} = props;
   //const placeholderValue = (props.name ? props.name : "Enter Student Name");
   /*if (props.name === null){
     name = "";
@@ -65,7 +65,7 @@ function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button onClick={cancel} danger>Cancel</Button>
-          <Button onClick={event=> onSave(name, interviewer)} confirm>Save</Button>
+          <Button onClick={event=> (name === "" || interviewer ===null) ? onInvalidInput() : onSave(name, interviewer)} confirm>Save</Button>
         </section>
       </section>
   </main>

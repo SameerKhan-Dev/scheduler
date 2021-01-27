@@ -32,7 +32,7 @@ const DELETING="DELETING";
 const EDIT= "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE="ERROR_DELETE";
-const ERROR_CREATE="ERROR_CREATE";
+const ERROR_INPUT="ERROR_INPUT";
 
 
 function Appointment(props) {
@@ -97,7 +97,11 @@ function Appointment(props) {
 
   }
 
+  function onInvalidInput() {
 
+    transition("ERROR_INPUT");
+
+  }
 
   //interviewers={interviewers}
   //interview={eachAppointment.interview}
@@ -154,6 +158,7 @@ function Appointment(props) {
           //onSave={transition}
           onSave={save}
           onCancel={back}
+          onInvalidInput = {onInvalidInput}
         //onEdit={transition}
         //onDelete={transition}
         />
@@ -179,6 +184,7 @@ function Appointment(props) {
           onSave={save}
           onCancel={back}
           interviewer={props.interview.interviewer}
+          onInvalidInput = {onInvalidInput}
         //onEdit={transition}
         //onDelete={transition}
         />
@@ -195,10 +201,10 @@ function Appointment(props) {
           onClose={event=> back()}
         />
       )}
-      {mode === ERROR_CREATE && (
+      {mode === ERROR_INPUT && (
         <Error
           message="Error. Could not create appointment. Please make sure to enter a student name and select an interviewer before saving."
-          onClose={event=> transition("SHOW")}
+          onClose={event=> back()}
         />
       )}
       
