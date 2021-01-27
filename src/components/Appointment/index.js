@@ -5,6 +5,7 @@ import Empty from './Empty';
 import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
+import Error from './Error';
 
 //import useVisualMode from '/home/sam123/lighthouse/w7/scheduler/scheduler/src/hooks/useVisualMode';
 import useVisualMode from '../hooks/useVisualMode';
@@ -29,6 +30,9 @@ const SAVING = "SAVING";
 const CONFIRM = "CONFIRM";
 const DELETING="DELETING";
 const EDIT= "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE="ERROR_DELETE";
+const ERROR_CREATE="ERROR_CREATE";
 
 
 function Appointment(props) {
@@ -43,12 +47,15 @@ function Appointment(props) {
       interviewer: interviewer
     }
 
-    transition("SAVING");
+    transition(SAVING);
     // book interview with details
     props.bookInterview(props.id, interview).then(() => {
 
-      transition("SHOW");
+      transition(SHOW);
       
+    }).catch((err) => {
+      //console.log("HEY! There is an error in saving!");
+      transition(ERROR_SAVE, true);
     });
     
     //transition("SAVING");
@@ -70,16 +77,17 @@ function Appointment(props) {
     */
     
     // set state to transition state
-      transition("DELETING")
+      transition("DELETING", true)
     
     // call aysnc props function deleteAppointment
     props.cancelInterview(props.id).then((response) => {
 
       // transition to empty once deleted
       transition("EMPTY")
+    }).catch((err) => {
+      console.log("HEY! There is an error in deleting!");
+      transition("ERROR_DELETE", true);
     });
-
-    
   }
 
   function confirmDelete() {
@@ -173,6 +181,24 @@ function Appointment(props) {
           interviewer={props.interview.interviewer}
         //onEdit={transition}
         //onDelete={transition}
+        />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error
+          message="Error. Could not save appointment."
+          onClose={event=> back()}
+        />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error
+          message="Error. Could not delete appointment."
+          onClose={event=> back()}
+        />
+      )}
+      {mode === ERROR_CREATE && (
+        <Error
+          message="Error. Could not create appointment. Please make sure to enter a student name and select an interviewer before saving."
+          onClose={event=> transition("SHOW")}
         />
       )}
       

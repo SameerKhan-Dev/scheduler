@@ -189,8 +189,7 @@ export default function Application(props) {
       console.log("response is: ",response);
        // call setState function to update local state value
       setState({...state, appointments: appointments});
-    }).catch(err => console.log("error from put request is: ", err));
-    
+    });
     //setState({...state, appointments: appointments});
     // alternatively could have done:  setState({...state, appointments});
     
@@ -224,11 +223,9 @@ export default function Application(props) {
         console.log("response is: ",response);
          // call setState function to update local state value of appoinments after the api call is made / database is modified.
         setState({...state, appointments: appointments});
-      }).catch(err => console.log("error from delete request is: ", err));
-      
-    };
+      });
 
-    
+    }
   useEffect(() => {
 
     Promise.all([

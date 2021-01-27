@@ -19,11 +19,13 @@ export default function useVisualMode (initialMode) {
   function transition (newMode, replace = false) {
     
     if(replace === true) {
-      // i.e dont store the mode into history.
+      // i.e replace the mode in history with new mode.
+
+      setHistory(prev => [...prev.slice(0, (prev.length-1)), newMode]);
       setMode(newMode);
 
     } else {
-      setHistory([...history, newMode]);
+      setHistory(prev => [...prev, newMode]);
       setMode(newMode);
     }
     //console.log("History is: ", history);
@@ -32,7 +34,7 @@ export default function useVisualMode (initialMode) {
   function back (){
     if (history.length > 1) {
       const prevMode = history[history.length-2];
-      setHistory(history.slice(0, history.length-1));
+      setHistory(prev=>prev.slice(0, prev.length-1));
       setMode(prevMode);
     }
     //setMode(history[(history.length)-1]);
