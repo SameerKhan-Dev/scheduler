@@ -4,6 +4,7 @@ import "components/Application.scss";
 
 import DayList from "./DayList";
 import Appointment from "./Appointment";
+import Footer from "./Appointment/Footer";
 //import {getInterview, getAppointmentsForDay} from "../helpers/selectors";
 //import getAppointmentsForDay from "../helpers/selectors";
 
@@ -196,7 +197,41 @@ export default function Application(props) {
     // make Async API put request to update database.
     
   }
-  // const dailyAppointments = appointments;
+    // this function is responsible for deleting the appointment in the state and the database.
+    function cancelInterview(id) {
+     
+      // to delete an appointment means to set the interview object to null value.
+
+      // make a copy of the current appointment and modify the interview object to be the new interview object info.
+      const appointment = {
+       ...state.appointments[id],
+        interview: null
+      };
+      // make a copy of the existing appointments list and update it with the new appointment object.
+      const appointments = {
+       ...state.appointments,
+      [id]: appointment
+      };
+      
+      //setState({...state, appointments: appointments});
+      // make an aysnc call to delete the appointment from the database.
+      
+      //`DELETE /api/appointments/:id`
+      
+      return axios
+      .delete(`http://localhost:8001/api/appointments/${id}`)
+      .then((response) => {
+        console.log("response is: ",response);
+         // call setState function to update local state value of appoinments after the api call is made / database is modified.
+        setState({...state, appointments: appointments});
+      }).catch(err => console.log("error from delete request is: ", err));
+      
+    };
+
+
+
+
+
 
   useEffect(() => {
 
@@ -250,6 +285,7 @@ export default function Application(props) {
          interviewers={interviewers}
          interview={eachAppointment.interview}
          bookInterview = {bookInterview}
+         cancelInterview = {cancelInterview}
          //interviewWithName = {getInterview(state, eachAppointment.interview)}
       />
     );
@@ -297,6 +333,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {appointmentsList}
+        <Footer/>
       </section>
     </main>
   );
