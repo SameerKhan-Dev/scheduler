@@ -228,11 +228,7 @@ export default function Application(props) {
       
     };
 
-
-
-
-
-
+    
   useEffect(() => {
 
     Promise.all([

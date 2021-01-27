@@ -28,6 +28,7 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const CONFIRM = "CONFIRM";
 const DELETING="DELETING";
+const EDIT= "EDIT";
 
 
 function Appointment(props) {
@@ -133,8 +134,9 @@ function Appointment(props) {
         student={props.interview.student}
         //interviewerName={interviewerName}
         interviewerName={getInterviewerName(props.interviewers, props.interview)}
-        //deleteAppointment={deleteAppointment}
+        //deleteAppointment={delebteAppointment}
         onDelete={confirmDelete}
+        onEdit={() => transition("EDIT")}
       />
      )}
        
@@ -161,6 +163,18 @@ function Appointment(props) {
         />
       )}
       {mode === DELETING && <Status message={"DELETING"}/>}
+      {mode === EDIT && (
+        <Form 
+          interviewers= {props.interviewers}
+          //onSave={transition}
+          name={props.interview.student}
+          onSave={save}
+          onCancel={back}
+          interviewer={props.interview.interviewer}
+        //onEdit={transition}
+        //onDelete={transition}
+        />
+      )}
       
   </article>
 );
