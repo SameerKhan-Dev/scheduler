@@ -1,5 +1,13 @@
 # Interview Scheduler
 
+This application allows users to schedule appointments with interviewers. Users have the option to delete, edit or create appointments.
+A single page full-stack application, built using React. Tested using Jest and Storybook. 
+
+
+!["Overview"](URL)
+!["Appointment Form"](URL)
+!["Action confirmation"](URL)
+
 ## Setup
 
 Install dependencies with `npm install`.
