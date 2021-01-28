@@ -34,7 +34,6 @@ function Show(props) {
       </section>
    </main>
   );
-
 }
 
 export default Show;
