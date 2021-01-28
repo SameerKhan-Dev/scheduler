@@ -4,9 +4,10 @@ This application allows users to schedule appointments with interviewers. Users 
 A single page full-stack application, built using React. Tested using Jest and Storybook. 
 
 
-!["Overview"](URL)
-!["Appointment Form"](URL)
-!["Action confirmation"](URL)
+!["Overview"](https://github.com/SameerKhan-Dev/scheduler/blob/master/docs/Interview%20Scheduler%20-%20Overview.png?raw=true)
+
+!["Appointment Form"](https://github.com/SameerKhan-Dev/scheduler/blob/master/docs/Editing%20and%20creating%20appointments.png?raw=true)
+!["Action confirmation"](https://github.com/SameerKhan-Dev/scheduler/blob/master/docs/Action%20confirmation.png?raw=true)
 
 ## Setup
 
