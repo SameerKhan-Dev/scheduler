@@ -40,7 +40,7 @@ function Appointment(props) {
   const {mode, transition, back} = useVisualMode(props.interview === null ? EMPTY : SHOW);  
   
   // this function will be used to save the interview details into state.
-  function save(name, interviewer) {
+  function save(name, interviewer, isCreate = false) {
 
     const interview = {
       student: name,
@@ -49,7 +49,7 @@ function Appointment(props) {
 
     transition(SAVING);
     // book interview with details
-    props.bookInterview(props.id, interview).then(() => {
+    props.bookInterview(props.id, interview, isCreate).then(() => {
 
       transition(SHOW);
       
@@ -159,6 +159,7 @@ function Appointment(props) {
           onSave={save}
           onCancel={back}
           onInvalidInput = {onInvalidInput}
+          isCreate = {true}
         //onEdit={transition}
         //onDelete={transition}
         />
@@ -185,6 +186,7 @@ function Appointment(props) {
           onCancel={back}
           interviewer={props.interview.interviewer}
           onInvalidInput = {onInvalidInput}
+          isCreate={false}
         //onEdit={transition}
         //onDelete={transition}
         />
