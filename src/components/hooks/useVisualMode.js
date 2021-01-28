@@ -2,54 +2,34 @@
 import React, {useState} from 'react';
 import {useEffect} from 'react';
 
+// This custom hook is used to manage the state of the different modes/views/status for appointments.
 export default function useVisualMode (initialMode) {
+
   const [mode, setMode] = useState(initialMode);
   const [history, setHistory] = useState([initialMode]);
 
-  // transition function
-  /*
-  function transition (newMode){
-    setHistory(mode);
-    setMode(prev => {
-      setHistory(prev);
-      return newMode;
-    });
-  }
-  */
+  // This function handles transitions between states/modes when user interacts with an appointment.
   function transition (newMode, replace = false) {
     
+    // Used to replace the existing mode if error occurs during saving or deleting operations.
     if(replace === true) {
-      // i.e dont store the mode into history.
       setMode(newMode);
 
     } else {
       setHistory([...history, newMode]);
       setMode(newMode);
     }
-    //console.log("History is: ", history);
   }
 
+  // This function handles the back action, when a user cancels an action or wants to go back.
   function back (){
     if (history.length > 1) {
       const prevMode = history[history.length-2];
       setHistory(history.slice(0, history.length-1));
       setMode(prevMode);
     }
-    //setMode(history[(history.length)-1]);
-    /*
-    setMode(history[(history.length)-2]);
-    setHistory(history.slice(0, history.length-1));
-    */
-    //setMode(history[(history.length)-1]);
-    /*
-    Promise.resolve(setHistory(history.slice(0, history.length-1)))
-    .then( 
-      setMode(history[(history.length)-1])
-    );
-    */
-    //setHistory(history.slice(0, history.length-1));
   }
- // console.log("History is: ", history);
+
   return ({
     mode: mode,
     transition: transition,

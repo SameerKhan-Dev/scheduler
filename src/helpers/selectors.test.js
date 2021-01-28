@@ -1,10 +1,7 @@
-//import { getAppointmentsForDay } from "helpers/selectors";
-//import {getInterview} from "helpers/selectors";
 import helpers from "helpers/selectors";
 
-
 const {getInterview, getAppointmentsForDay, getInterviewersForDay} = helpers;
-
+// Mock data for tests
 const state = {
   days: [
     {

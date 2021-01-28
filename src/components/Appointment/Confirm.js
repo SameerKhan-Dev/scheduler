@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from 'components/Button';
 
+// This component is used to ask confirmation from user before deleting an appointment.
 
 function Confirm(props) {
 

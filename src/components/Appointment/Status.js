@@ -1,5 +1,6 @@
 import React from 'react';
 
+// This component is for display saving / deleting status during async calls to api.
 function Status(props) {
 
   const {message} = props;

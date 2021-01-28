@@ -1,6 +1,10 @@
 import React from 'react';
 
+// This component is the header for every appointment.
+// It displays the time of the appointment and a separator between appointments.
+
 function Header(props) {
+  
   const {time} = props;
 
     return (
@@ -12,6 +16,3 @@ function Header(props) {
 };
 
 export default Header; 
-//style={"display:inline-block"}
-//https://resume.creddle.io/resume/blr41ble0u4
-//https://resume.creddle.io/resume/7vztw8ss97m

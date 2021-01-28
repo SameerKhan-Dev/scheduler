@@ -1,7 +1,8 @@
 import React from 'react';
 
+// This component is for rendering the end of the list of appointments for every day.
+
 function Footer(props) {
-  //const {time} = props;
 
     return (
       <header className="appointment__time">

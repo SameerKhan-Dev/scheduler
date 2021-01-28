@@ -2,25 +2,11 @@
 import React, {useState} from 'react';
 import {useEffect} from 'react';
 const axios = require('axios');
-/*
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
-*/
+
+
+// This custom hook handles all the state management for application.js.
+// Specifically it handles whenever the state has to be changed i.e when cancelling or editing an appointment.
+
 export default function useApplication (initialState) {
 
   const [state, setState] = useState({ 
@@ -28,82 +14,33 @@ export default function useApplication (initialState) {
     day: "Monday",
     days: [],
     interviewers: [],
-    appointments: [
-      {
-        id: 1,
-        time: "12pm",
-      },
-      {
-        id: 2,
-        time: "1pm",
-        interview: {
-          student: "Lydia Miller-Jones",
-          interviewer: {
-            id: 1,
-            name: "Sylvia Palmer",
-            avatar: "https://i.imgur.com/LpaY82x.png"
-          }
-        }
-      },
-      {
-        id: 3,
-        time: "2pm",
-        interview: {
-          student: "Jack Tyler",
-          interviewer: {
-            id: 1,
-            name: "Sylvia Palmer",
-            avatar: "https://i.imgur.com/LpaY82x.png"
-          }
-        }
-      },
-      {
-        id: 4,
-        time: "3pm",
-      },
-      {
-        id: 5,
-        time: "4pm",
-        interview: {
-          student: "Roy Jordan",
-          interviewer: {
-            id: 4,
-            name: "Cohana Roy",
-            avatar: "https://i.imgur.com/FK8V841.jpg",
-          }
-        }
-      },
-      {
-        id: 6,
-        time: "5pm"
-      }
-    ]
+    appointments: []
   });
 
-   // updates the state object with day that is to be set
    const setDay = (day) => setState({...state, day: day});
-   
-   const [spotsForEachDay, setSpotsForDays] = useState({
-    "Monday": 5,
-    "Tuesday": 5,
-    "Wednesday": 5,
-    "Thursday": 5,
-    "Friday": 5
-   });
 
-  // updates the state object with new days info that is to be set.
-  //const setDays = (days) => setState({...state, days: days });
-  //const setDays = (days) => setState(prev => ({ ...prev, days}));
- console.log("spotsForEachDay is :", spotsForEachDay);
-
-  // id is the appointment_id and interview is the object with name of student, and interviewer_id.
+ // This function is responsible for updating state and api , with newly created appointment details.
   function bookInterview(id, interview, isCreate = false) {
 
     console.log(id, interview);
- 
+    
+    // dayId is used represent which day the newly booked appointment belongs to.
     let dayId =0;
 
-    if(isCreate) {
+    const interviewCopy = {...interview};
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: {...interview}
+    };
+
+    const daysArray = [...state.days];
+
+
+    // In order to update count for the number of open appointment slots available, the isCreate variable is used.
+    // We only update count when a new interview is created (isCreate = true), not when an existing interview is being updated/modified/edited. 
+ 
+    if(isCreate) {  
       if(id <= 5) { 
         dayId = 1;      
       } else if (id <= 10) {
@@ -114,59 +51,33 @@ export default function useApplication (initialState) {
         dayId = 4;
       } else if (id <= 25) {
         dayId = 5;
-      }
-    }
-    // make a copy of the interview object.
-    const interviewCopy = {...interview};
-
-    // make a copy of the current appointment and modify the interview object to be the new interview object info.
-    const appointment = {
-      ...state.appointments[id],
-      interview: {...interview}
-    };
-
-    // make a copy of the current object days.
-    //console.log("state.days is:", state.days);
-    const daysArray = [...state.days];
-    //console.log("DAYSOBJECT before is: ", daysObject);
-    if(isCreate) {
-      
+      }  
+      // when a new appointment is booked for the day, the count of available decreases by 1.
       daysArray[dayId-1].spots -= 1;
-      console.log("DAYSOBJECT IS after is: ", daysArray);
     }
-    
-    // make a copy of the existing appointments list and update it with the new appointment object.
-    const appointments = {
-      ...state.appointments,
-      // appointments[id] = 
-      [id]: appointment
-    };
+  
+    const appointments = {...state.appointments,[id]: appointment};
 
-   return axios
-    .put(`http://localhost:8001/api/appointments/${id}`, {
-      id: id,
-      time: state.appointments[id].time,
-      interview: {
-        student: interview.student,
-        interviewer: interview.interviewer,
-      },
-    })
-    .then((response) => {
-      console.log("response is: ",response);
-       // call setState function to update local state value
-      setState({...state, appointments: appointments, days: daysArray});
+    return axios
+      .put(`/api/appointments/${id}`, {
+        id: id,
+        time: state.appointments[id].time,
+        interview: {
+          student: interview.student,
+          interviewer: interview.interviewer,
+        },
+      })
+      .then((response) => {
+  
+        setState({...state, appointments: appointments, days: daysArray});
 
-    });
-    //setState({...state, appointments: appointments});
-    // alternatively could have done:  setState({...state, appointments});
-    
-    // make Async API put request to update database.
-    
+      });
   }
-    // this function is responsible for deleting the appointment in the state and the database.
+    // This function is responsible for deleting the appointment in the state and the database.
     function cancelInterview(id) {
       let dayId =0;
-
+        // Using appointment id to determine what day appointment belongs to.
+        // dayId will be used to updated count of open appointment spots available for the day.
         if(id <= 5) { 
           dayId = 1;      
         } else if (id <= 10) {
@@ -179,73 +90,44 @@ export default function useApplication (initialState) {
           dayId = 5;
         }
       
-
         const daysArray = [...state.days];
         daysArray[dayId-1].spots += 1;
-      // make a copy of the current appointment and modify the interview object to be the new interview object info.
-      const appointment = {
-       ...state.appointments[id],
-        interview: null
-      };
-      // make a copy of the existing appointments list and update it with the new appointment object.
-      const appointments = {
-       ...state.appointments,
-      [id]: appointment
-      };
+   
+        const appointment = {...state.appointments[id], interview: null};
+
+        const appointments = {...state.appointments, [id]: appointment};
       
-      //setState({...state, appointments: appointments});
-      // make an aysnc call to delete the appointment from the database.
-      
-      //`DELETE /api/appointments/:id`
-      
-      return axios
-      .delete(`http://localhost:8001/api/appointments/${id}`)
-      .then((response) => {
-        console.log("response is: ",response);
-         // call setState function to update local state value of appoinments after the api call is made / database is modified.
-        setState({...state, appointments: appointments, days: daysArray});
-      });
+        // Delete appointment in API.
+        return axios
+          .delete(`/api/appointments/${id}`)
+          .then((response) => {
+            // Local state update.
+            setState({...state, appointments: appointments, days: daysArray});
+           });
 
     }
 
+  // This useEffect hook is used to get all the initial API data for the scheduler app, when it loads the first time.
   useEffect(() => {
 
     Promise.all([
-      axios.get("http://localhost:8001/api/days"),
-      axios.get("http://localhost:8001/api/appointments"),
-      axios.get("http://localhost:8001/api/interviewers")
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers")
   
     ])
     .then ((allValues) => {
-  
-      //console.log(allValues[0]); // first
-      //console.log(allValues[1]); // second
-      //console.log(allValues[2]); // third
-  
+
       let daysData = allValues[0].data;
-      setSpotsForDays({
-        ...spotsForEachDay, "Monday": (daysData[0].spots) , "Tuesday": (daysData[1].spots) , "Wednesday": (daysData[2].spots), "Thursday":  (daysData[3].spots), "Friday": (daysData[4].spots)
-      });
       let appointmentsData = allValues[1].data;
       let interviewersData = allValues[2].data;
-      console.log("interviewersData is : ", interviewersData);
-      //const [first, second, third] = all;
-      console.log("ALL VALUES IS: ", allValues);
+      // Update local state with data from API.
       setState(prev => ({...prev, days: daysData, appointments: appointmentsData, interviewers: interviewersData}));
       console.log("state.interviewers is : ", state.interviewers);
     });
-    //console.log("state.interviewers is : ", state.interviewers);
-    /*
-    axios.get("http://localhost:8001/api/days")
-      .then(response => {
-        console.log("response.data is: ",response.data);
-        setDays(response.data);
-      });
 
-    */
   },[]);
-
-
+  
   return ({
     state: state,
     setDay: setDay,

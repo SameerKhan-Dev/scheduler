@@ -1,8 +1,10 @@
 import React from 'react';
 
-function Error(props) {
+// This component is used to display error messages when deleting or saving operation fails.
 
+function Error(props) {
   const {message, onClose} = props;
+  
   return (
     <main className="appointment__card appointment__card--error">
       <section className="appointment__error-message">

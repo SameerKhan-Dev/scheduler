@@ -1,9 +1,10 @@
 import React from 'react';
 
+// This component is for empty / open appointment time slots.
+
 function Empty(props) { 
   
   const {onAdd} = props;
-
 
   return (
       <main className="appointment__add">
@@ -12,7 +13,6 @@ function Empty(props) {
           src="images/add.png"
           alt="Add"
           onClick={event => onAdd()}
-          //onClick={onAdd("CREATE")}
         />
       </main>
     );

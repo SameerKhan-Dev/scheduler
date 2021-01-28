@@ -3,33 +3,10 @@ import "./DayListItem.scss";
 
 var classNames = require('classnames');
 
-/*
+// This component is the individual DayListItem representing a day on the left nav-bar of the application.
 export default function DayListItem(props) {
 
-  if(props.setDay){
-    return (
-    <li onClick={props.setDay}>
-      <h2 className="text--regular">{props.name}</h2>.
-      <h3 className= "text--light">{props.spots} spots remaining</h3>
-    </li>
-
-  ) }
-   else {
-  
-    return (
-      <li>
-        <h2 className="text--regular">{props.name}</h2>.
-        <h3 className= "text--light">{props.spots} spots remaining</h3>
-      </li>
-    );
-  }
-
-}
-*/
-
-export default function DayListItem(props) {
-
-  //let componentClass = classNames('day-list__item', {'day-list__item--full': props.spots === 0}, {'day-list__item--selected': props.setDay});
+  // Logic to determine sentence describing number of spots remaining.
   const spotsString = "";
   const formatSpots = function (spotsString) {
     if (props.spots === 0) {
@@ -47,7 +24,8 @@ export default function DayListItem(props) {
   }
 
   let formattedSpotsString = formatSpots(spotsString);
-
+  
+  // Define classes based on values of props
   let dayClass = {
     'day-list__item': true,
     'day-list__item--selected':props.selected,

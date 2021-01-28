@@ -1,36 +1,40 @@
 import React from 'react';
 import InterviewerListItem from 'components/InterviewerListItem';
-import './InterviewerList.scss'
+import './InterviewerList.scss';
+import PropTypes from 'prop-types';
 
-
+// Component to display list of available interviewers inside the Form component when creating/editing appointments.
 const InterviewerList = function (props) {
 
-    const {interviewers, value , onChange} = props;
-    // we want to return an array components (i.e array of InterviewerListItem components)
-    // use map to create that array.
-    
-    // for each component of array , use the interviewer number and setInterviewer command.
-    const listOfInterviewers = interviewers.map(eachInterviewer => {
+  const {interviewers, value , onChange} = props;
 
-        return (
-          <InterviewerListItem
-            key= {eachInterviewer.id}
-            name= {eachInterviewer.name} 
-            avatar= {eachInterviewer.avatar}
-            selected= {value === eachInterviewer.id}
-            setInterviewer= {event => (onChange(eachInterviewer.id))}
-          />
-        );
-    });
+  // Create array of each interviewer as a react component (InterviewerListItem).
+  const listOfInterviewers = interviewers.map(eachInterviewer => {
 
     return (
-      <section className="interviewers">
-        <h4 className="interviewers__header">Interviewer</h4>
-        <ul className="interviewers__list">
-          {listOfInterviewers}
-        </ul>
-      </section>
+      <InterviewerListItem
+        key= {eachInterviewer.id}
+        name= {eachInterviewer.name} 
+        avatar= {eachInterviewer.avatar}
+        selected= {value === eachInterviewer.id}
+        setInterviewer= {event => (onChange(eachInterviewer.id))}
+      />
     );
+  });
+
+  return (
+    <section className="interviewers">
+      <h4 className="interviewers__header">Interviewer</h4>
+      <ul className="interviewers__list">
+        {listOfInterviewers}
+      </ul>
+    </section>
+  );
+}
+
+InterviewerList.propTypes = {
+  interviewers: PropTypes.array.isRequired
+
 }
 
 export default InterviewerList;

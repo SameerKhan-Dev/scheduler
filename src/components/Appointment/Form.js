@@ -2,48 +2,29 @@ import React, {useState} from 'react';
 import InterviewerList from 'components/InterviewerList';
 import Button from 'components/Button';
 
+// This component is the form shown to users when creating a new appointment or editing an existing one.
 
 function Form(props) {
 
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
-
   const {interviewers, onSave, onCancel, onInvalidInput, isCreate} = props;
-  //const placeholderValue = (props.name ? props.name : "Enter Student Name");
-  /*if (props.name === null){
-    name = "";
-  }
-  */
-  /*
-  if (props.interviewer === null) {
-    interviewer = null;
-  }
-  */
- // reset function to clear the values in the form, i.e resets to a brand new form
+
+ // Reset function to clear the values in the form, i.e resets to a brand new form
   const reset = function () {
-    // set the name value to empty ""
+  
     setName("");
-    // set the interviewer to null
     setInterviewer(null);
   }
 
+  // Cancel function to handle initiation of cancelling of an appointment and reseting the values.
   const cancel = function () {
-    // call the onCancel function, i.e when a user cancels operation to edit or create.
-    onCancel(); // props.onCancel();
-    // reset the values
+    
+    onCancel(); 
     reset();
   }
-  /*
-  // name is name of student, interviewer is the interviewer id.
-  // this page re-renders everytime name is changed or interviewer is changed so,
-  // so this means that interview object is subject to change, i.e tracks/holds
-  // the most recent value of the name and interviewer states/variables.
-  let interview = {
-    name: name,
-    interviewer: interviewer 
-  }
-  */
+ 
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -54,9 +35,6 @@ function Form(props) {
             type="text"
             placeholder= "Enter Student Name"
             value = {name}
-            /*
-              This must be a controlled component
-            */
             onChange={event => setName(event.target.value)}
           />
         </form>
